@@ -16,6 +16,7 @@ class ApplicationController < Sinatra::Base
 
   get '/signup' do
     if !!session[:user_id]
+      binding.pry
       redirect 'tweets/tweets'
     end
     erb :'users/create_user'
