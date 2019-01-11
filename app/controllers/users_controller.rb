@@ -27,12 +27,11 @@ class UsersController < ApplicationController
     # if @user != nil && @user.authenticate(params[:password])
     if @user 
       session[:user_id] = @user.id
+      binding.pry
       redirect '/tweets'
     end
     redirect '/signup'
   end
  
-  
-
 
 end
