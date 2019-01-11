@@ -41,7 +41,7 @@ class ApplicationController < Sinatra::Base
       session[:user_id] = @user.id
       binding.pry
 
-      redirect '/tweets/tweets'
+      redirect '/tweets'
     end
     redirect '/signup'
   end
