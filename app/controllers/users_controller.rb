@@ -39,6 +39,14 @@ class UsersController < ApplicationController
     erb :'/users/show'
   end
 
+  get '/tweets/new' do
+    # if logged_in?
+    #     redirect '/tweets/new'
+    # end
+    # erb :'/users/login'
+    erb :'/tweets/new'
+  end
+
   get '/logout' do
     if logged_in?
       session.clear
