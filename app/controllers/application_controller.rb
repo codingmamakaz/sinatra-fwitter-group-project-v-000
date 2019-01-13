@@ -11,8 +11,21 @@ class ApplicationController < Sinatra::Base
 
   
   get '/' do
+    if logged_in?
+      redirect '/tweets'
+    end
     erb :index
   end
 
+  helpers do
+
+    def current_user
+      @user = User.find_by_id(session[:user_id])
+    end
+  
+    def logged_in?
+      !!session[:user_id]
+    end
+  end
 end
 
