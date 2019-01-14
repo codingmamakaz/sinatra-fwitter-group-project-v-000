@@ -44,8 +44,6 @@ class UsersController < ApplicationController
         redirect '/login'
     end
     erb :'/tweets/new'
-    # end
-    # erb :'/login'
   end
 
   post '/tweets' do
@@ -60,7 +58,26 @@ class UsersController < ApplicationController
         
     redirect :'/tweets'
   end
+
+  get '/tweets/:id' do
+    if !logged_in?
+        redirect '/login'
+    end
+
+    @tweet = Tweet.find_by_id(params[:id])
+    @content = @tweet.content
+    erb :'/tweets/show_tweet'
+  end
  
+  get '/tweets/:id/edit' do
+    if !logged_in?
+        redirect '/login'
+    end
+
+    @tweet = Tweet.find_by_id(params[:id])
+    @content = @tweet.content
+  end
+
   get '/logout' do
     if logged_in?
       session.clear
