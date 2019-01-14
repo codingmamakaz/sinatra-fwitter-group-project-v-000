@@ -65,6 +65,7 @@ class UsersController < ApplicationController
     end
     @tweet = Tweet.find_by_id(params[:id])
     @content = @tweet.content
+    @user = User.find_by_id(session[:user_id])
     erb :'/tweets/show_tweet'
   end
  
@@ -75,15 +76,14 @@ class UsersController < ApplicationController
 
     @tweet = Tweet.find_by_id(params[:id])
     @content = @tweet.content
-    # binding.pry
     @user = User.find_by_id(session[:user_id])
-    if @tweet.user_id == @user.id
-      erb :'/tweets/edit_tweet'
-    end
+    # if @tweet.user_id == @user.id
+    #   erb :'/tweets/edit_tweet'
+    # end
 
     # @user_id = @tweet.user_id
     # @user = User.find_by_id(session[:user_id])
-    # erb :'/tweets/edit_tweet'
+    erb :'/tweets/edit_tweet'
   end
 
   patch '/tweets/:id' do
@@ -103,8 +103,13 @@ class UsersController < ApplicationController
   end
 
   delete '/tweets/:id/delete' do
-    Tweet.destroy(params[:id])
-    redirect :'/tweets'
+    @user = User.find_by_id(session[:user_id])
+    @tweet = Tweet.find_by_id(params[:id])
+    if @tweet.user_id == @user.id
+      Tweet.destroy(params[:id])
+      redirect :'/tweets'
+    end
+    redirect :'/login'
   end
   
 end
