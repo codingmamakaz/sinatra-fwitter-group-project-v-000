@@ -41,12 +41,24 @@ class UsersController < ApplicationController
 
   get '/tweets/new' do
     # if logged_in?
-    #     redirect '/tweets/new'
-    # end
-    # erb :'/users/login'
     erb :'/tweets/new'
+    # end
+    # erb :'/login'
   end
 
+  post '/tweets' do
+    if params[:content] == ""
+        redirect :'/tweets/new'
+    end
+
+    @tweet = Tweet.create(params)
+    @user = User.find_by_id(session[:user_id])
+    @tweet.user_id = @user.id
+    @tweet.save
+        
+    redirect :'/tweets'
+  end
+ 
   get '/logout' do
     if logged_in?
       session.clear
