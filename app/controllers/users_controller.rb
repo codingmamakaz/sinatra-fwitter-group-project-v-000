@@ -94,5 +94,9 @@ class UsersController < ApplicationController
     end
   redirect '/login'
   end
+
+  delete 'tweets/:id/delete' do
+    redirect :'/tweets'
+  end
   
 end
