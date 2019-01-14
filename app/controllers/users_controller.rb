@@ -63,7 +63,6 @@ class UsersController < ApplicationController
     if !logged_in?
         redirect '/login'
     end
-
     @tweet = Tweet.find_by_id(params[:id])
     @content = @tweet.content
     erb :'/tweets/show_tweet'
@@ -76,7 +75,15 @@ class UsersController < ApplicationController
 
     @tweet = Tweet.find_by_id(params[:id])
     @content = @tweet.content
-    erb :'/tweets/edit_tweet'
+    # binding.pry
+    @user = User.find_by_id(session[:user_id])
+    if @tweet.user_id == @user.id
+      erb :'/tweets/edit_tweet'
+    end
+
+    # @user_id = @tweet.user_id
+    # @user = User.find_by_id(session[:user_id])
+    # erb :'/tweets/edit_tweet'
   end
 
   patch '/tweets/:id' do
@@ -95,7 +102,8 @@ class UsersController < ApplicationController
   redirect '/login'
   end
 
-  delete 'tweets/:id/delete' do
+  delete '/tweets/:id/delete' do
+    Tweet.destroy(params[:id])
     redirect :'/tweets'
   end
   
