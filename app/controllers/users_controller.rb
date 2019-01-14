@@ -76,6 +76,16 @@ class UsersController < ApplicationController
 
     @tweet = Tweet.find_by_id(params[:id])
     @content = @tweet.content
+    erb :'/tweets/edit_tweet'
+  end
+
+  patch '/tweets/:id' do
+    @tweet = Tweet.find_by_id(params[:id])
+    if params[:tweet][:content].empty?
+        redirect "/tweets/#{@tweet.id}/edit"
+    end    
+    @tweet = Tweet.find_by_id(params[:id])
+    @tweet.update(params[:tweet])
   end
 
   get '/logout' do
@@ -85,5 +95,4 @@ class UsersController < ApplicationController
   redirect '/login'
   end
   
-
 end
