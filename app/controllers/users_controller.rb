@@ -64,7 +64,6 @@ class UsersController < ApplicationController
         redirect '/login'
     end
     @tweet = Tweet.find_by_id(params[:id])
-    @content = @tweet.content
     @user = User.find_by_id(session[:user_id])
     erb :'/tweets/show_tweet'
   end
@@ -75,14 +74,7 @@ class UsersController < ApplicationController
     end
 
     @tweet = Tweet.find_by_id(params[:id])
-    @content = @tweet.content
     @user = User.find_by_id(session[:user_id])
-    # if @tweet.user_id == @user.id
-    #   erb :'/tweets/edit_tweet'
-    # end
-
-    # @user_id = @tweet.user_id
-    # @user = User.find_by_id(session[:user_id])
     erb :'/tweets/edit_tweet'
   end
 
@@ -91,8 +83,8 @@ class UsersController < ApplicationController
     if params[:tweet][:content].empty?
         redirect "/tweets/#{@tweet.id}/edit"
     end    
-    @tweet = Tweet.find_by_id(params[:id])
     @tweet.update(params[:tweet])
+    redirect to "/tweets/#{ @tweet.id }"
   end
 
   get '/logout' do
