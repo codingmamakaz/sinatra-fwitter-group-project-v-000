@@ -12,6 +12,7 @@ class TweetsController < ApplicationController
         if !logged_in?
             redirect to '/login'
         end
+        @user = User.find_by_id(session[:user_id])
         erb :'/tweets/new'
     end
     
@@ -20,32 +21,12 @@ class TweetsController < ApplicationController
             redirect :'/tweets/new'
         end
         
-        # @tweet = current_user.tweets.build(content: params[:content])
-        # if @tweet.save
-        #   redirect to "/tweets/#{@tweet.id}"
-        # else 
-        #   redirect to "/tweets/new"
-        # end 
-        # @tweet = Tweet.create(params)
-        # if logged_in
-            session[:user_id] == current_user[:id] 
-            @tweet = Tweet.create(params)
-            @tweet.user_id = @user.id
-            @tweet.save
-            redirect "/tweets/#{@tweet.id}"
-        # end
-        # binding.pry
-        # @tweet = current_user.tweets.create(params)
-        # @user = User.find_by_id(session[:user_id])
-        # @tweet.save
-            
-
-        #
-        # @tweet = Tweet.create(params)
-        # @user = User.find_by_id(session[:user_id])
-        # @tweet.user_id = @user.id
-        # @tweet.save
-        # redirect "/tweets/#{@tweet.id}"
+        session[:user_id] == current_user[:id] 
+        @tweet = Tweet.create(params)
+        @tweet.user_id = @user.id
+        @tweet.save
+        redirect "/tweets/#{@tweet.id}"
+       
     end
 
     get '/tweets/:id' do
